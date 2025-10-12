@@ -103,7 +103,7 @@ public class CoreBanking {
                         if(out_display.equalsIgnoreCase("Y")){
                             condition = true;
                         }else {
-                            System.out.println("====The End====dfddv=");
+                            System.out.println("====The End====dfdv=");
                             condition = false;
                         }
 
