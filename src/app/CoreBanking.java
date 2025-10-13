@@ -138,7 +138,39 @@ public class CoreBanking {
                             if (out_update0.equalsIgnoreCase("YES")){
                                 System.out.println("am yes");
                             }else {
-                                System.out.println("no am else");
+                                System.out.print("What do you want to update(Name/Type/Amount): ");
+                                String choice0 = input.next();
+
+                                switch (choice0){
+                                    case "Name":
+                                        System.out.print("Enter the new name: ");
+                                        String nameToUpdate = input.next();
+
+                                        try {
+                                            Connection conUpate1 = DriverManager.getConnection(jdUrl ,jdUserName ,jdPassword);
+                                            Statement stUpdate = conUpate1.createStatement();
+
+                                            String sql1 = String.format("UPDATE bank_account SET account_name = '%s' WHERE account_number = '%s'",nameToUpdate,number_to_ulter );
+                                            int rowAffected = stUpdate.executeUpdate(sql1);
+                                            if (rowAffected > 0){
+                                                System.out.println("Name has been updated successfully.");
+                                            }else {
+                                                System.out.println("Name not updated.");
+                                            }
+                                            conUpate1.close();
+                                        }catch (Exception ex){
+                                            ex.printStackTrace();
+                                        }
+                                        break;
+                                    case "Type":
+                                        System.out.println("plxxx");
+                                        break;
+                                    case "Amount":
+                                        System.out.println("plxxxx");
+                                        break;
+                                    default:
+                                        System.out.println("jnj");
+                                }
                             }
                         }else{
                             System.out.println("==>==>User not found........");
