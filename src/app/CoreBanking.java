@@ -131,12 +131,34 @@ public class CoreBanking {
                             System.out.println("Name  : "+rs_update.getString("account_name"));
                             System.out.println("Number: "+rs_update.getString("account_number"));
                             System.out.println("Type  : "+rs_update.getString("account_type"));
-                            System.out.println("Amount: "+rs_update.getDouble("amount"));
+                            System.out.println("Amount: $"+rs_update.getDouble("amount"));
                             System.out.println("");
                             System.out.print("Do you wish to update the entire record(enter yes/no): ");
                             String out_update0 = input.next();
                             if (out_update0.equalsIgnoreCase("YES")){
-                                System.out.println("am yes");
+                                System.out.print("Enter new name: ");
+                                String newName = input.next();
+                                System.out.print("Enter new type of account: ");
+                                String newType = input.next();
+                                System.out.print("Enter new amount: ");
+                                double newAmount = input.nextDouble();
+
+                                try {
+                                    Connection conUpdateAll = DriverManager.getConnection(jdUrl ,jdUserName ,jdPassword);
+                                    Statement StUpdateAll  = conUpdateAll.createStatement();
+
+                                    String sqlAll = String.format("UPDATE bank_account SET account_name ='%s', account_type = '%s', amount = %f ",newName ,newType ,newAmount);
+                                    int rowsAffected = StUpdateAll.executeUpdate(sqlAll);
+                                    if (rowsAffected > 0){
+                                        System.out.println("The record has been updated successfully.");
+                                    }else{
+                                        System.out.println("Nothing happened");
+                                    }
+                                    conUpdateAll.close();
+                                }catch (Exception ex){
+                                    ex.printStackTrace();
+                                }
+
                             }else {
                                 System.out.print("What do you want to update(Name/Type/Amount): ");
                                 String choice0 = input.next();
@@ -163,10 +185,44 @@ public class CoreBanking {
                                         }
                                         break;
                                     case "Type":
-                                        System.out.println("plxxx");
+                                        System.out.print("Enter the new type of account(Saving/Recurring/Current/Fixed): ");
+                                        String newType = input.next();
+
+                                        try {
+                                            Connection conUpdate2 = DriverManager.getConnection(jdUrl ,jdUserName ,jdPassword);
+                                            Statement stUpdate1 = conUpdate2.createStatement();
+
+                                            String sql2 = String.format("UPDATE bank_account SET account_type = '%s' WHERE account_number = '%s'",newType ,number_to_ulter);
+                                            int rowsAffected1 = stUpdate1.executeUpdate(sql2);
+                                            if (rowsAffected1 > 0){
+                                                System.out.println("Account type has been updated successfully.");
+                                            }else {
+                                                System.out.println("Nothing has happened.");
+                                            }
+                                            conUpdate2.close();
+                                        }catch (Exception ex){
+                                            ex.printStackTrace();
+                                        }
                                         break;
                                     case "Amount":
-                                        System.out.println("plxxxx");
+                                        System.out.print("Enter the new amount: ");
+                                        double newAmount = input.nextDouble();
+
+                                        try {
+                                            Connection conUpdateAmount = DriverManager.getConnection(jdUrl ,jdUserName ,jdPassword);
+                                            Statement stUpdateAmount = conUpdateAmount.createStatement();
+
+                                            String sql2 = String.format("UPDATE bank_account SET amount = %f WHERE account_number = '%s' ",newAmount ,number_to_ulter);
+                                            int rowsAffected3 = stUpdateAmount.executeUpdate(sql2);
+                                            if (rowsAffected3 > 0){
+                                                System.out.println("Amount has been updated.");
+                                            }else{
+                                                System.out.println("Nothing happened.");
+                                            }
+                                            conUpdateAmount.close();
+                                        }catch (Exception ex){
+                                            ex.printStackTrace();
+                                        }
                                         break;
                                     default:
                                         System.out.println("jnj");
