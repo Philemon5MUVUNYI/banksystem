@@ -3,6 +3,7 @@ package app;
 
 import java.sql.*;
 import java.util.Scanner;
+import java.util.SimpleTimeZone;
 
 public class CoreBanking {
     public static void main(String[] args) {
@@ -113,7 +114,40 @@ public class CoreBanking {
 
                     break;
                 case 3:
-                    System.out.println("");
+                    String number_to_ulter;
+                    System.out.println("===================================");
+                    System.out.print("Enter the account number of the record you want to ulter: ");
+                     number_to_ulter = input.next();
+
+                    String sql = "Select * from bank_account where account_number = ?";
+                    try (Connection con_update = DriverManager.getConnection(jdUrl,jdUserName,jdPassword);
+                    PreparedStatement pst_update = con_update.prepareStatement(sql)){
+
+                        pst_update.setString(1,number_to_ulter);
+                        ResultSet rs_update = pst_update.executeQuery();
+
+                        if (rs_update.next()){
+                            System.out.println("USER FOUND");
+                            System.out.println("Name  : "+rs_update.getString("account_name"));
+                            System.out.println("Number: "+rs_update.getString("account_number"));
+                            System.out.println("Type  : "+rs_update.getString("account_type"));
+                            System.out.println("Amount: "+rs_update.getDouble("amount"));
+                            System.out.println("");
+                            System.out.print("Do you wish to update the entire record(enter yes/no): ");
+                            String out_update0 = input.next();
+                            if (out_update0.equalsIgnoreCase("YES")){
+                                System.out.println("am yes");
+                            }else {
+                                System.out.println("no am else");
+                            }
+                        }else{
+                            System.out.println("==>==>User not found........");
+                        }
+                        con_update.close();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+
                     break;
                 case 4:
                     System.out.println("");
